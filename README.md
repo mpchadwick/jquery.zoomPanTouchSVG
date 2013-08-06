@@ -6,6 +6,10 @@ For each element the plugin is called on, a Zoom In and Zoom Out button is appen
 
 Panning is possible either by dragging with the mouse, or by touch dragging on touch enabled devices.
 
+## Example
+
+Check out *jquery.zoomPanTouchSVG* live and in action [here](http://mpchadwick.github.io/jquery.zoomPanTouchSVG/index.html)
+
 ## Usage
 
 Calling *jQuery.zoomPanTouchSVG* on an SVG should look very familiar...
