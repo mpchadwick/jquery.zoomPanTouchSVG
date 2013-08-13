@@ -1,3 +1,7 @@
+/* jshint -W065 */
+/* jshint -W099 */
+/* global jQuery:false */
+
 /**
  * File: 	touchableZoomablePannableSVG.js
  * Author: 	Max Chadwick
@@ -9,8 +13,10 @@
 
 (function($) {
 
+	"use strict";
+
 	$.fn.zoomPanTouchSVG = function( options ) {
-		
+
 		/**
 		 * Initial settings
 		 */ 
@@ -34,31 +40,32 @@
 		var jsThis = 				document.getElementById($this.attr("id"));		
 		var masterViewBoxArr = 		jsThis.getAttribute('viewBox').split(" ");
 		
-		var zoomLevels = 			settings.zoomLevels.split(", ")
+		var zoomLevels = 			settings.zoomLevels.split(", ");
 									zoomLevels.push(settings.initialZoom);
-									zoomLevels.sort(function(a,b) {return a-b});
+									zoomLevels.sort(function(a,b) {return a-b;});
 		
-		var viewBoxDims = 			new Array();
+		var viewBoxDims = 			[];
 		var curZoomIndex =			0; // Index is incremented and decremented during zoom in and out
 
-		for(i = 0; i < zoomLevels.length; i++) { // Store the viewBox width and heights for each zoom level
+		for(var i = 0; i < zoomLevels.length; i++) { // Store the viewBox width and heights for each zoom level
 			var viewBoxWidth = masterViewBoxArr[2] / (zoomLevels[i] / 100);
 		 	var viewBoxHeight = masterViewBoxArr[3] / (zoomLevels[i] / 100);
 		 	viewBoxDims[i] = viewBoxWidth + " " + viewBoxHeight;
-		 	if(zoomLevels[i] == settings.initialZoom) { // If we're at the initial zoom
+		 	if(zoomLevels[i] === settings.initialZoom) { // If we're at the initial zoom
 		 		curZoomIndex = i;
+		 		var minx, miny;
 		 		if(!settings.initialMinX) {
-		 			var minx = (masterViewBoxArr[2] - viewBoxWidth) / 2; // Center by default
+		 			minx = (masterViewBoxArr[2] - viewBoxWidth) / 2; // Center by default
 		 		} else {
-		 			var minx = parseInt(settings.initialMinX);
+		 			minx = parseInt(settings.initialMinX);
 		 			if((minx + parseInt(viewBoxWidth)) > parseInt(masterViewBoxArr[2])) {
 		 				minx = parseInt(masterViewBoxArr[2]) - parseInt(viewBoxWidth);
 		 			}
 		 		}
 		 		if(!settings.initialMinY) {
-		 			var miny = (masterViewBoxArr[3] - viewBoxHeight) / 2;
+		 			miny = (masterViewBoxArr[3] - viewBoxHeight) / 2;
 		 		} else {
-		 			var miny = settings.initialMinX;
+		 			miny = settings.initialMinX;
 		 			if((miny + parseInt(viewBoxHeight)) > parseInt(masterViewBoxArr[3])) {
 		 				miny = parseInt(masterViewBoxArr[3]) - parseInt(viewBoxHeight);
 		 			}
@@ -75,28 +82,31 @@
 		// Elements that get appended need an index number in case there are multiple instances
 		// of the plugin
 		var zoomInBtns = $('*[id^="tZPSVGZoomIn"]'); 
+		var tzpIndex;
 		if(!zoomInBtns) {
-			tzpIndex = 0
+			tzpIndex = 0;
 		} else {
 			tzpIndex = zoomInBtns.length;
 		}
 
 		var zoomInBtnID = 'tZPSVGZoomIn' + tzpIndex;
+		var zoomInBtnHTML;
 		if(!settings.zoomInBtnSrc) {
-			var zoomInBtnHTML = '<button class="tZPSVGBtn" id="' + zoomInBtnID + '">' + settings.zoomInText + '</button>';
+			zoomInBtnHTML = '<button class="tZPSVGBtn" id="' + zoomInBtnID + '">' + settings.zoomInText + '</button>';
 		} else {
-			var zoomInBtnHTML = '<img src="' + options.zoomInSrc + '" id="' + zoomInBtnID + '">';
+			zoomInBtnHTML = '<img src="' + options.zoomInSrc + '" id="' + zoomInBtnID + '">';
 		}
 		
 		var zoomOutBtnID = 'tZPSVGZoomOut' + tzpIndex;
+		var zoomOutBtnHTML;
 		if(!settings.zoomOutBtnSrc) {
-			var zoomOutBtnHTML = '<button class="tZPSVGBtn" id="' + zoomOutBtnID + '">' + settings.zoomOutText + '</button>';
+			zoomOutBtnHTML = '<button class="tZPSVGBtn" id="' + zoomOutBtnID + '">' + settings.zoomOutText + '</button>';
 		} else {
-			var zoomOutBtnHTML = '<img src="' + options.zoomOutSrc + '" id="' + zoomOutBtnID + '">';
+			zoomOutBtnHTML = '<img src="' + options.zoomOutSrc + '" id="' + zoomOutBtnID + '">';
 		}
 
 		if(!settings.zoomBtnContainer) {
-			zoomBtnContainerID = 'tZPSVGBtnContainer' + tzpIndex;
+			var zoomBtnContainerID = 'tZPSVGBtnContainer' + tzpIndex;
 			$this.after('<div id="' + zoomBtnContainerID + '">' + zoomInBtnHTML + zoomOutBtnHTML + '</div>');
 		} else {
 			var zoomBtnContainer = $(settings.zoomBtnContainer);
@@ -108,12 +118,12 @@
 		 * Zoom in and out functionality
 		 */
 		 function zoom(direction) {
-		 	if(direction == 'in' && curZoomIndex == (zoomLevels.length - 1)) {
+		 	if(direction === 'in' && curZoomIndex === (zoomLevels.length - 1)) {
 		 		return false;
-		 	} else if (direction == 'out' && curZoomIndex == 0){
-				return false
+		 	} else if (direction === 'out' && curZoomIndex === 0){
+				return false;
 		 	} else { // OK to zoom!
-		 		if(direction == 'in') {
+		 		if(direction === 'in') {
 		 			curZoomIndex++;
 		 		} else {
 		 			curZoomIndex--;
@@ -128,7 +138,7 @@
 		 			minx = parseInt(masterViewBoxArr[2]) - parseInt(nextViewBoxDimsArr[0]);
 		 		}
 		 		var miny = parseInt(curViewBoxArr[1]) + parseInt((parseInt(curViewBoxArr[3]) - parseInt(nextViewBoxDimsArr[1])) / 2);
-		 		var miny = parseInt(miny);
+		 		miny = parseInt(miny);
 		 		if(miny < 0) { // Too far up!
 		 			miny = 0;
 		 		} else if((miny + parseInt(nextViewBoxDimsArr[1])) > parseInt(masterViewBoxArr[3])) { // Too far down!
@@ -142,16 +152,16 @@
 		
 		$('#' + zoomInBtnID).click(function() {
 			zoom('in');
-		})
+		});
 		$('#' + zoomOutBtnID).click(function() {
 			zoom('out');
-		})
+		});
 
 
 		/**
 		 * Touchable Pannable Functionality
 		 */
-		var mouseTouchEvent = false;
+		var mouseTouchEvent, startX, startY, dX, dY, curViewBoxArr;
 
 		function registerMouseTouchEvent(event) {
 			mouseTouchEvent = true;
@@ -165,9 +175,8 @@
 			event.preventDefault();
 		}
 
-		function unregisterMouchTouchEvent(event) {
+		function unregisterMouchTouchEvent() {
 			mouseTouchEvent = false;
-			//event.preventDefault();
 		}
 
 		function drag(event) {
@@ -175,19 +184,19 @@
 			if(mouseTouchEvent) {			
 				
 				if(!event.touches) {
-					var dX = startX - event.clientX;
-					var dY = startY - event.clientY;
+					dX = startX - event.clientX;
+					dY = startY - event.clientY;
 				} else {
-					var dX = startX - event.touches[0].clientX;
-					var dY = startY - event.touches[0].clientY;
+					dX = startX - event.touches[0].clientX;
+					dY = startY - event.touches[0].clientY;
 				}
 
-				var curViewBoxArr = jsThis.getAttribute('viewBox').split(" ");
+				curViewBoxArr = jsThis.getAttribute('viewBox').split(" ");
 
 				if(dX < 0 && curViewBoxArr[0] < 0) {
-					dX = 0
+					dX = 0;
 				} else if(dX > 0 && (parseInt(curViewBoxArr[2]) + parseInt(curViewBoxArr[0]) > masterViewBoxArr[2])) {
-					dX = 0
+					dX = 0;
 				} else if(dY < 0 && curViewBoxArr[1] < 0) {
 					dY = 0;
 				} else if(dY > 0 && (parseInt(curViewBoxArr[3]) + parseInt(curViewBoxArr[1]) > masterViewBoxArr[3])) {
@@ -229,6 +238,6 @@
 
 		return this;
 
-	}
+	};
 
 }(jQuery));
