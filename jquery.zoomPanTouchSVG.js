@@ -107,7 +107,7 @@
 
 		if(!settings.zoomBtnContainer) {
 			var zoomBtnContainerID = 'tZPSVGBtnContainer' + tzpIndex;
-			$this.after('<div id="' + zoomBtnContainerID + '">' + zoomInBtnHTML + zoomOutBtnHTML + '</div>');
+			$this.after('<div class="tZPSVGBtnContainer" id="' + zoomBtnContainerID + '">' + zoomInBtnHTML + zoomOutBtnHTML + '</div>');
 		} else {
 			var zoomBtnContainer = $(settings.zoomBtnContainer);
 			zoomBtnContainer.html(zoomInBtnHTML + zoomOutBtnHTML);
