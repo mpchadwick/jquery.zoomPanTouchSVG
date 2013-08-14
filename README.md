@@ -8,7 +8,7 @@ Panning is possible either by dragging with the mouse, or by touch dragging on t
 
 ## Example
 
-Check out *jquery.zoomPanTouchSVG* live and in action [here](http://mpchadwick.github.io/jquery.zoomPanTouchSVG/index.html)
+Check out *jquery.zoomPanTouchSVG* live and in action [here](http://mpchadwick.github.io/jquery.zoomPanTouchSVG/index.html)...
 
 ## Usage
 
@@ -18,9 +18,23 @@ Calling *jQuery.zoomPanTouchSVG* on an SVG should look very familiar...
 $('#mySVG').zoomPanTouchSVG();
 ```
 
-Note: For *jQuery.zoomPanTouchSVG* to work, the SVG's `viewBox` attribute must be set to the SVGs width and height with zero offset in both the x and y direction!
+### Notes
 
-### Options
+1) For *jQuery.zoomPanTouchSVG* to work, the SVG's `viewBox` attribute must be set to the SVGs width and height with zero offset in both the x and y direction!
+
+2) In your CSS please be sure to make the following declaration as old versions of Internet Explorer display SVG overflow
+
+```
+svg {
+	overflow: hidden;
+}
+```
+
+3) The plugin requires SVGs to be embedded inline in HTML pages
+
+4) **PRO TIP:** If you are doing fluid width SVGs use [this gist](https://gist.github.com/pfulton/4259378) to address a bug in Webkit browsers where height is incorrectly calculated
+
+## Options
 
 The following options are available to customize *jquery.zoomPanTouchSVG*'s behavior...
 
