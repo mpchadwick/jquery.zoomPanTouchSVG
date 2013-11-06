@@ -1,0 +1,25 @@
+{
+    "name": "zoomPanTouchSVG",
+    "title": "jQuery.zoomPanTouchSVG",
+    "description": "jQuery.zoomPanTouchSVG is a jQuery plugin that utilizes the SVG viewBox attribute to Zoom In, Zoom Out and Pan around an SVG.",
+    "keywords": [
+        "SVG",
+        "Zoom",
+        "Touch",
+        "Pan"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Max Chadwick",
+        "url": "https://github.com/mpchadwick"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/mpchadwick/jquery.zoomPanTouchSVG/blob/master/LICENSE.txt"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
